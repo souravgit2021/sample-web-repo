@@ -1,0 +1,26 @@
+name: Passing_Variables Demo
+on: workflow_dispatch
+
+jobs:
+  passing_variables:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Variable
+        id: step-1
+        run: |
+          echo "My_Var=Hellow_World" >> $GITHUB_ENV
+
+      - name: Use Environment Variable
+        id: step-2
+        run: |
+          echo "The Value Is : $My_Var"
+          echo "The Value Is : ${{ env.My_Var }}"
+
+      - name: Generate Output
+        id: extract-data
+        run: |
+          echo "app_version=1.0.0" >> $GITHUB_OUTPUT
+
+      - name: Use Output Variable
+        run: |
+          echo "Deploying Version: ${{ steps.extract-data.outputs.app_version }}"
