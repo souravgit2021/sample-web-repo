@@ -1,0 +1,11 @@
+name: Debug GitHub Context
+on: [push, pull_request]
+
+jobs:
+  dump_metadata:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
