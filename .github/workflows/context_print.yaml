@@ -1,11 +1,19 @@
-name: Debug GitHub Context
-on: [push, pull_request]
+name: Extract GitHub Context Variables
+on: [workflow_dispatch]
 
 jobs:
-  dump_metadata:
+  extract_metadata:
     runs-on: ubuntu-latest
     steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CONTEXT"
+      - name: Print Context Variables
+        run: |
+          echo "The repository is: ${{ github.repository }}"
+          echo "The workflow was triggered by: ${{ github.actor }}"
+          echo "The event that triggered this run is: ${{ github.event_name }}"
+          
+      - name: Extract Specific Event Data
+        # Example of drilling down into the github.event object
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "Pull Request Title: ${{ github.event.pull_request.title }}"
+          echo "Pull Request Action: ${{ github.event.action }}"
